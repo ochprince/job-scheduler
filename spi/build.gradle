@@ -18,6 +18,9 @@ apply plugin: 'opensearch.testclusters'
 apply plugin: 'opensearch.java-rest-test'
 
 repositories {
+    maven {
+        url 'https://maven.aliyun.com/nexus/content/groups/public/'
+    }
     mavenLocal()
     mavenCentral()
     maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
@@ -154,4 +157,19 @@ publishing {
     // TODO - enabled debug logging for the time being, remove this eventually
     gradle.startParameter.setShowStacktrace(ShowStacktrace.ALWAYS)
     gradle.startParameter.setLogLevel(LogLevel.DEBUG)
+}
+
+task fatJar(type: Jar) {
+    manifest.from jar.manifest
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
 }
