@@ -27,7 +27,6 @@ repositories {
     }
     mavenLocal()
     mavenCentral()
-    maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
 }
 
 ext {
@@ -118,11 +117,12 @@ publishing {
             url = "${rootProject.buildDir}/local-staging-repo"
         }
         maven {
-            name = "Snapshots" //  optional target repository name
-            url = "https://aws.oss.sonatype.org/content/repositories/snapshots"
+            setAllowInsecureProtocol(true)
+            name = 'release'
+            url = 'http://192.168.0.9:8081/nexus/content/repositories/sm_release_repositories'
             credentials {
-                username "$System.env.SONATYPE_USERNAME"
-                password "$System.env.SONATYPE_PASSWORD"
+                username 'sm_admin'
+                password 'p[-sdko12}(9K'
             }
         }
     }

@@ -22,7 +22,6 @@ buildscript {
         }
         mavenLocal()
         mavenCentral()
-        maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
     }
 
     dependencies {
@@ -158,7 +157,6 @@ repositories {
     }
     mavenLocal()
     mavenCentral()
-    maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
 }
 
 dependencies {
