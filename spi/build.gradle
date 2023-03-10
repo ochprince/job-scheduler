@@ -4,7 +4,7 @@
  */
 
 import com.github.jengelman.gradle.plugins.shadow.ShadowBasePlugin
-import org.opensearch.gradle.test.RestIntegTestTask
+import com.colasoft.opensearch.gradle.test.RestIntegTestTask
 
 plugins {
     id 'com.github.johnrengelman.shadow'
@@ -18,6 +18,10 @@ apply plugin: 'opensearch.testclusters'
 apply plugin: 'opensearch.java-rest-test'
 
 repositories {
+    maven {
+        allowInsecureProtocol(true)
+        url 'http://192.168.0.9:8081/nexus/content/groups/public'
+    }
     maven {
         url 'https://maven.aliyun.com/nexus/content/groups/public/'
     }
@@ -48,14 +52,14 @@ check.dependsOn jacocoTestReport
 
 def slf4j_version_of_cronutils = "1.7.36"
 dependencies {
-    compileOnly "org.opensearch:opensearch:${opensearch_version}"
+    compileOnly "com.colasoft.opensearch:opensearch:${opensearch_version}"
     // slf4j is the runtime dependency of cron-utils
     // if cron-utils version gets bumped, pls check the slf4j version cron-utils depending on
     //  and bump if needed
     implementation "com.cronutils:cron-utils:9.2.0"
     runtimeOnly "org.slf4j:slf4j-api:${slf4j_version_of_cronutils}"
 
-    testImplementation "org.opensearch.test:framework:${opensearch_version}"
+    testImplementation "com.colasoft.opensearch.test:framework:${opensearch_version}"
     testImplementation "org.apache.logging.log4j:log4j-core:${versions.log4j}"
 }
 
@@ -67,8 +71,8 @@ configurations.all {
 }
 
 shadowJar {
-    relocate 'com.cronutils', 'org.opensearch.jobscheduler.repackage.com.cronutils'
-    relocate 'org.slf4j', 'org.opensearch.jobscheduler.repackage.org.slf4j' // dependency of cron-utils
+    relocate 'com.cronutils', 'com.colasoft.opensearch.jobscheduler.repackage.com.cronutils'
+    relocate 'org.slf4j', 'com.colasoft.opensearch.jobscheduler.repackage.org.slf4j' // dependency of cron-utils
     classifier = null
 }
 
