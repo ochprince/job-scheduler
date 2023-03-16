@@ -136,13 +136,7 @@ publishing {
     }
     repositories {
         maven {
-            setAllowInsecureProtocol(true)
-            name = 'release'
-            url = 'http://192.168.0.9:8081/nexus/content/repositories/sm_release_repositories'
-            credentials {
-                username 'sm_admin'
-                password 'p[-sdko12}(9K'
-            }
+
         }
     }
 }
