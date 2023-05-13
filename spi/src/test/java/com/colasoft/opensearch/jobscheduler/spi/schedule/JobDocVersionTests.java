@@ -1,0 +1,32 @@
+/*
+ * Copyright OpenSearch Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ */
+package com.colasoft.opensearch.jobscheduler.spi.schedule;
+
+import com.colasoft.opensearch.jobscheduler.spi.JobDocVersion;
+import com.colasoft.opensearch.test.OpenSearchTestCase;
+import org.junit.Assert;
+
+public class JobDocVersionTests extends OpenSearchTestCase {
+
+    public void testCompareTo() {
+        // constructor parameters: primary_term, seqNo, version
+        JobDocVersion version1 = new JobDocVersion(1L, 1L, 1L);
+        Assert.assertTrue(version1.compareTo(null) > 0);
+
+        JobDocVersion version2 = new JobDocVersion(1L, 2L, 1L);
+        Assert.assertTrue(version1.compareTo(version2) < 0);
+
+        JobDocVersion version3 = new JobDocVersion(2L, 1L, 1L);
+        Assert.assertTrue(version1.compareTo(version3) < 0);
+        Assert.assertTrue(version2.compareTo(version3) > 0);
+
+        JobDocVersion version4 = new JobDocVersion(1L, 1L, 1L);
+        Assert.assertTrue(version1.compareTo(version4) == 0);
+    }
+}

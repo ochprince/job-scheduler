@@ -31,11 +31,11 @@ Add the following to your plugin to integrate with JobScheduler
 * Add [this workaround](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/build.gradle#L36) to make sure that job-schedular plugin is correctly installed during integration tests.
 
 2. Implement the following classes
-* Implement these two interfaces [ScheduledJobParameter](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/java/org/opensearch/jobscheduler/sampleextension/SampleJobParameter.java#L37) and [ScheduledJobRunner](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/java/org/opensearch/jobscheduler/sampleextension/SampleJobRunner.java#L43)
-* Extend class [JobSchedulerExtension](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/java/org/opensearch/jobscheduler/sampleextension/SampleExtensionPlugin.java#L12)
+* Implement these two interfaces [ScheduledJobParameter](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/java/com/colasoft/opensearch/jobscheduler/sampleextension/SampleJobParameter.java#L37) and [ScheduledJobRunner](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/java/com/colasoft/opensearch/jobscheduler/sampleextension/SampleJobRunner.java#L43)
+* Extend class [JobSchedulerExtension](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/java/com/colasoft/opensearch/jobscheduler/sampleextension/SampleExtensionPlugin.java#L12)
 
 3. Add the resource file
-* Create `org.opensearch.jobscheduler.spi.JobSchedulerExtension` [file](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/resources/META-INF/services/org.opensearch.jobscheduler.spi.JobSchedulerExtension#L1).
+* Create `com.colasoft.opensearch.jobscheduler.spi.JobSchedulerExtension` [file](https://github.com/opensearch-project/job-scheduler/blob/main/sample-extension-plugin/src/main/resources/META-INF/services/com.colasoft.opensearch.jobscheduler.spi.JobSchedulerExtension#L1).
 
 ## Contributing
 

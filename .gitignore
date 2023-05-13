@@ -12,3 +12,4 @@ build
 bin/
 .classpath
 .vscode
+gradle/wrapper/gradle-8.0.2-bin.zip

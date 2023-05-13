@@ -7,8 +7,8 @@ apply plugin: 'opensearch.opensearchplugin'
 apply plugin: 'opensearch.testclusters'
 apply plugin: 'opensearch.java-rest-test'
 
-import org.opensearch.gradle.test.RestIntegTestTask
-import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
+import com.colasoft.opensearch.gradle.test.RestIntegTestTask
+import com.colasoft.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 
 import java.util.concurrent.Callable
 
@@ -16,7 +16,7 @@ import java.util.concurrent.Callable
 opensearchplugin {
     name 'opensearch-job-scheduler-sample-extension'
     description 'Sample plugin that extends OpenSearch Job Scheduler plugin'
-    classname 'org.opensearch.jobscheduler.sampleextension.SampleExtensionPlugin'
+    classname 'com.colasoft.opensearch.jobscheduler.sampleextension.SampleExtensionPlugin'
     extendedPlugins = ['opensearch-job-scheduler']
 }
 
@@ -27,9 +27,12 @@ ext {
 }
 
 repositories {
+    maven {
+        allowInsecureProtocol(true)
+        url 'http://192.168.0.9:8081/nexus/content/groups/public'
+    }
     mavenLocal()
     mavenCentral()
-    maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
 }
 
 dependencies {
@@ -96,7 +99,7 @@ integTest {
     }
     if (System.getProperty("tests.rest.bwcsuite") == null) {
         filter {
-            excludeTestsMatching "org.opensearch.jobscheduler.sampleextension.bwc.*IT"
+            excludeTestsMatching "com.colasoft.opensearch.jobscheduler.sampleextension.bwc.*IT"
         }
     }
 }
@@ -187,7 +190,7 @@ task prepareBwcTests {
         dependsOn 'prepareBwcTests'
         useCluster testClusters."${baseName}$i"
         filter {
-            includeTestsMatching "org.opensearch.jobscheduler.sampleextension.bwc.*IT"
+            includeTestsMatching "com.colasoft.opensearch.jobscheduler.sampleextension.bwc.*IT"
         }
         systemProperty 'tests.rest.bwcsuite', 'old_cluster'
         systemProperty 'tests.rest.bwcsuite_round', 'old'
@@ -207,7 +210,7 @@ task "${baseName}#mixedClusterTask"(type: StandaloneRestIntegTestTask) {
         testClusters."${baseName}0".upgradeNodeAndPluginToNextVersion(plugins)
     }
     filter {
-        includeTestsMatching "org.opensearch.jobscheduler.sampleextension.bwc.*IT"
+        includeTestsMatching "com.colasoft.opensearch.jobscheduler.sampleextension.bwc.*IT"
     }
     systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
     systemProperty 'tests.rest.bwcsuite_round', 'first'
@@ -226,7 +229,7 @@ task "${baseName}#twoThirdsUpgradedClusterTask"(type: StandaloneRestIntegTestTas
         testClusters."${baseName}0".upgradeNodeAndPluginToNextVersion(plugins)
     }
     filter {
-        includeTestsMatching "org.opensearch.jobscheduler.sampleextension.bwc.*IT"
+        includeTestsMatching "com.colasoft.opensearch.jobscheduler.sampleextension.bwc.*IT"
     }
     systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
     systemProperty 'tests.rest.bwcsuite_round', 'second'
@@ -245,7 +248,7 @@ task "${baseName}#rollingUpgradeClusterTask"(type: StandaloneRestIntegTestTask) 
         testClusters."${baseName}0".upgradeNodeAndPluginToNextVersion(plugins)
     }
     filter {
-        includeTestsMatching "org.opensearch.jobscheduler.sampleextension.bwc.*IT"
+        includeTestsMatching "com.colasoft.opensearch.jobscheduler.sampleextension.bwc.*IT"
     }
     mustRunAfter "${baseName}#mixedClusterTask"
     systemProperty 'tests.rest.bwcsuite', 'mixed_cluster'
@@ -264,7 +267,7 @@ task "${baseName}#fullRestartClusterTask"(type: StandaloneRestIntegTestTask) {
         testClusters."${baseName}1".upgradeAllNodesAndPluginsToNextVersion(plugins)
     }
     filter {
-        includeTestsMatching "org.opensearch.jobscheduler.sampleextension.bwc.*IT"
+        includeTestsMatching "com.colasoft.opensearch.jobscheduler.sampleextension.bwc.*IT"
     }
     systemProperty 'tests.rest.bwcsuite', 'upgraded_cluster'
     systemProperty 'tests.plugin_bwc_version', bwcJobSchedulerVersion
